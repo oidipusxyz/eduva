@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #4CAF50;
+  --color-primary-muted: #F0FDF4;
+  --color-primary-border: #BBF7D0;
+  --color-primary-hover: #86EFAC;
+  --color-primary-dark: #2E7D32;
+
+  --color-bg-page: #F7F8FA;
+  --color-bg-surface: #FFFFFF;
+  --color-bg-subtle: #F9FAFB;
+
+  --color-border-default: #E5E7EB;
+  --color-border-muted: #F3F4F6;
+
+  --color-text-primary: #111827;
+  --color-text-secondary: #374151;
+  --color-text-muted: #9CA3AF;
+
+  --color-positive-bg: #F0FDF4;
+  --color-positive-border: #BBF7D0;
+  --color-positive-text: #15803D;
+
+  --color-info-bg: #EFF6FF;
+  --color-info-border: #BFDBFE;
+  --color-info-text: #1D4ED8;
+
+  --color-warning-bg: #FFFBEB;
+  --color-warning-border: #FDE68A;
+  --color-warning-text: #92400E;
+
+  --color-danger-bg: #FFF1F2;
+  --color-danger-border: #FECDD3;
+  --color-danger-text: #BE123C;
+
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #F7F8FA;
+  color: #111827;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Card hover */
+.card-hoverable:hover {
+  border-bottom: 4px solid var(--hover-color, #86EFAC);
+  filter: brightness(0.97);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #E5E7EB; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #9CA3AF; }
