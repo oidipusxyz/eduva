@@ -6,70 +6,21 @@ import { useEffect, useState } from 'react'
 import { api } from '@/lib/api'
 
 const adminItems = [
-  {
-    href: '/admin/dashboard',
-    label: 'Overview',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg>,
-  },
-  {
-    href: '/admin/teachers',
-    label: 'Kelola Guru',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>,
-  },
-  {
-    href: '/admin/reports',
-    label: 'Laporan Admin',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="8" y1="13" x2="16" y2="13" /><line x1="8" y1="17" x2="16" y2="17" /></svg>,
-  },
+  { href: '/admin/dashboard', label: 'Overview', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg> },
+  { href: '/admin/teachers', label: 'Kelola Guru', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg> },
+  { href: '/admin/reports', label: 'Laporan Sekolah', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="8" y1="13" x2="16" y2="13" /><line x1="8" y1="17" x2="16" y2="17" /></svg> },
 ]
 
 const teacherItems = [
-  {
-    href: '/dashboard',
-    label: 'Dashboard',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg>,
-  },
-  {
-    href: '/classes',
-    label: 'Kelas',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>,
-  },
-  {
-    href: '/attendance',
-    label: 'Absensi',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 11 12 14 22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg>,
-  },
-  {
-    href: '/content',
-    label: 'Materi',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /></svg>,
-  },
-  {
-    href: '/grades',
-    label: 'Nilai',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" /></svg>,
-  },
-  {
-    href: '/heatmap',
-    label: 'Heatmap',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="4" height="4" rx="0.5" /><rect x="10" y="3" width="4" height="4" rx="0.5" /><rect x="17" y="3" width="4" height="4" rx="0.5" /><rect x="3" y="10" width="4" height="4" rx="0.5" /><rect x="10" y="10" width="4" height="4" rx="0.5" /><rect x="17" y="10" width="4" height="4" rx="0.5" /><rect x="3" y="17" width="4" height="4" rx="0.5" /><rect x="10" y="17" width="4" height="4" rx="0.5" /><rect x="17" y="17" width="4" height="4" rx="0.5" /></svg>,
-  },
-  {
-    href: '/journals',
-    label: 'Jurnal',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>,
-  },
-  {
-    href: '/reports',
-    label: 'Laporan',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="8" y1="13" x2="16" y2="13" /><line x1="8" y1="17" x2="16" y2="17" /></svg>,
-  },
-  {
-    href: '/alerts',
-    label: 'Alert',
-    showAlertDot: true,
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>,
-  },
+  { href: '/dashboard', label: 'Dashboard', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg> },
+  { href: '/classes', label: 'Kelas', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg> },
+  { href: '/attendance', label: 'Absensi', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 11 12 14 22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg> },
+  { href: '/content', label: 'Materi', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /></svg> },
+  { href: '/grades', label: 'Nilai', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" /></svg> },
+  { href: '/heatmap', label: 'Heatmap', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="4" height="4" rx="0.5" /><rect x="10" y="3" width="4" height="4" rx="0.5" /><rect x="17" y="3" width="4" height="4" rx="0.5" /><rect x="3" y="10" width="4" height="4" rx="0.5" /><rect x="10" y="10" width="4" height="4" rx="0.5" /><rect x="17" y="10" width="4" height="4" rx="0.5" /><rect x="3" y="17" width="4" height="4" rx="0.5" /><rect x="10" y="17" width="4" height="4" rx="0.5" /><rect x="17" y="17" width="4" height="4" rx="0.5" /></svg> },
+  { href: '/journals', label: 'Jurnal', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg> },
+  { href: '/reports', label: 'Laporan Kelas', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="8" y1="13" x2="16" y2="13" /><line x1="8" y1="17" x2="16" y2="17" /></svg> },
+  { href: '/alerts', label: 'Alert', showAlertDot: true, icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg> },
 ]
 
 export default function AdminSidebar() {
@@ -82,24 +33,25 @@ export default function AdminSidebar() {
       .catch(() => {})
   }, [])
 
-  const renderItem = (item: typeof teacherItems[0]) => {
+  const renderItem = (item: { href: string; label: string; icon: React.ReactNode; showAlertDot?: boolean }) => {
     const active = pathname === item.href || pathname.startsWith(item.href + '/')
-    const showDot = 'showAlertDot' in item && item.showAlertDot && alertCount > 0
+    const showDot = item.showAlertDot && alertCount > 0
     return (
       <Link
         key={item.href}
         href={item.href}
         title={item.label}
         className={[
-          'relative w-[46px] h-[46px] rounded-[12px] flex items-center justify-center transition-all flex-shrink-0',
+          'relative flex items-center gap-3 px-3 h-[40px] rounded-[10px] transition-all',
           active
             ? 'bg-primary-muted text-[#16A34A]'
             : 'text-text-muted hover:bg-border-muted hover:text-text-secondary',
         ].join(' ')}
       >
-        {item.icon}
+        <span className="flex-shrink-0">{item.icon}</span>
+        <span className="hidden lg:block text-[13px] font-medium">{item.label}</span>
         {showDot && (
-          <span className="absolute top-1.5 right-1.5 min-w-[14px] h-[14px] bg-[#DC2626] rounded-full flex items-center justify-center text-white text-[9px] font-medium px-0.5">
+          <span className="absolute top-2 left-[26px] lg:static lg:ml-auto min-w-[18px] h-[18px] bg-[#DC2626] rounded-full flex items-center justify-center text-white text-[10px] font-medium px-1">
             {alertCount > 9 ? '9+' : alertCount}
           </span>
         )}
@@ -108,30 +60,43 @@ export default function AdminSidebar() {
   }
 
   return (
-    <aside className="hidden md:flex fixed top-0 left-0 h-screen w-[72px] bg-bg-surface border-r border-border-default flex-col items-center py-4 gap-1 z-50">
-      <div className="w-10 h-10 rounded-[12px] bg-primary flex items-center justify-center mb-1">
-        <span className="text-white text-[15px] font-medium">E</span>
+    <aside className="hidden md:flex fixed top-0 left-0 h-screen w-[72px] lg:w-[220px] bg-bg-surface border-r border-border-default flex-col py-4 z-50 transition-all">
+      {/* Logo */}
+      <div className="flex items-center gap-3 px-3 mb-3">
+        <div className="w-9 h-9 rounded-[10px] bg-primary flex items-center justify-center flex-shrink-0">
+          <span className="text-white text-[15px] font-medium">E</span>
+        </div>
+        <div className="hidden lg:block">
+          <div className="text-[15px] font-semibold text-text-primary leading-tight">Eduva</div>
+          <div className="text-[10px] text-primary font-medium tracking-wide uppercase">Admin</div>
+        </div>
       </div>
-      <div className="text-[8px] text-primary font-medium mb-2 tracking-wide uppercase">Admin</div>
+      {/* Admin badge tablet only */}
+      <div className="lg:hidden text-[8px] text-primary font-medium tracking-wide uppercase text-center mb-2">Admin</div>
 
-      <nav className="flex flex-col items-center gap-1 flex-1 w-full px-2 overflow-y-auto">
+      <nav className="flex flex-col gap-0.5 flex-1 px-2 overflow-y-auto">
+        {/* Section label */}
+        <div className="hidden lg:block text-[10px] text-text-muted font-medium uppercase tracking-wider px-3 py-1.5">Admin</div>
         {adminItems.map(renderItem)}
 
-        <div className="w-8 border-t border-border-muted my-2" />
-        <div className="text-[8px] text-text-muted font-medium tracking-wide uppercase mb-1">Kelas</div>
+        <div className="mx-2 border-t border-border-muted my-2" />
+        <div className="hidden lg:block text-[10px] text-text-muted font-medium uppercase tracking-wider px-3 py-1.5">Kelas Saya</div>
 
         {teacherItems.map(renderItem)}
       </nav>
 
-      <button
-        className="w-[46px] h-[46px] rounded-[12px] flex items-center justify-center text-text-muted hover:bg-border-muted hover:text-text-secondary transition-all flex-shrink-0"
-        title="Keluar"
-        onClick={() => { localStorage.removeItem('token'); window.location.href = '/login' }}
-      >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" />
-        </svg>
-      </button>
+      <div className="px-2">
+        <button
+          title="Keluar"
+          onClick={() => { localStorage.removeItem('token'); window.location.href = '/login' }}
+          className="w-full flex items-center gap-3 px-3 h-[40px] rounded-[10px] text-text-muted hover:bg-border-muted hover:text-text-secondary transition-all"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" />
+          </svg>
+          <span className="hidden lg:block text-[13px] font-medium">Keluar</span>
+        </button>
+      </div>
     </aside>
   )
 }
