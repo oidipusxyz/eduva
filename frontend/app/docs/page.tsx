@@ -5,11 +5,13 @@ import Link from 'next/link'
 
 const sections = [
   { id: 'pengenalan', label: 'Pengenalan' },
+  { id: 'infrastruktur', label: 'Infrastruktur & Layanan' },
   { id: 'akun', label: 'Akun & Akses' },
   { id: 'admin', label: 'Panduan Admin' },
   { id: 'guru', label: 'Panduan Guru' },
   { id: 'siswa', label: 'Panduan Siswa' },
   { id: 'teknis', label: 'Dokumentasi Teknis' },
+  { id: 'phase5', label: 'Roadmap Phase 5' },
 ]
 
 function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
@@ -224,6 +226,105 @@ export default function DocsPage() {
                 ]}
               />
             </SubSection>
+          </Section>
+
+          {/* ── INFRASTRUKTUR ── */}
+          <Section id="infrastruktur" title="Infrastruktur & Layanan">
+
+            <SubSection title="Vercel — Frontend Hosting">
+              <div className="bg-bg-surface border border-border-default rounded-[12px] p-4 mb-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-[18px]">▲</span>
+                  <span className="text-[14px] font-medium text-text-primary">Vercel</span>
+                  <Badge color="green">Gratis (Hobby)</Badge>
+                </div>
+                <p className="text-[13px] text-text-secondary mb-3">
+                  Hosting untuk aplikasi Next.js. Setiap push ke GitHub otomatis trigger deployment baru.
+                </p>
+                <Table
+                  headers={['Fitur', 'Free (Hobby)', 'Pro ($20/bln)']}
+                  rows={[
+                    ['Deployment', 'Unlimited', 'Unlimited'],
+                    ['Bandwidth', '100 GB/bln', '1 TB/bln'],
+                    ['Custom Domain', '✓', '✓'],
+                    ['Team Collaboration', '✗', '✓'],
+                    ['Masa berlaku', 'Selamanya', 'Per bulan'],
+                  ]}
+                />
+                <InfoBox type="tip">Free tier cukup untuk production selama traffic tidak melebihi 100GB/bulan. Untuk SMK dengan ratusan siswa, Free tier sudah lebih dari cukup.</InfoBox>
+              </div>
+            </SubSection>
+
+            <SubSection title="Railway — Backend Hosting">
+              <div className="bg-bg-surface border border-border-default rounded-[12px] p-4 mb-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-[18px]">🚂</span>
+                  <span className="text-[14px] font-medium text-text-primary">Railway</span>
+                  <Badge color="blue">Hobby $5/bln</Badge>
+                </div>
+                <p className="text-[13px] text-text-secondary mb-3">
+                  Hosting untuk Express.js backend API. Build otomatis dari GitHub menggunakan Nixpacks.
+                </p>
+                <Table
+                  headers={['Paket', 'Harga', 'Keterangan']}
+                  rows={[
+                    ['Trial', 'Gratis ($5 kredit)', 'Kredit habis = service mati. Hanya untuk coba-coba.'],
+                    ['Hobby', '$5/bln', '$5 kredit usage/bln. App kecil biasanya < $2/bln, sisa kredit hangus.'],
+                    ['Pro', '$20/bln', 'Untuk traffic tinggi dan tim'],
+                  ]}
+                />
+                <InfoBox type="warning">Saat ini Eduva menggunakan paket <strong>Hobby ($5/bln)</strong>. Untuk server Express.js sederhana, biaya aktual biasanya $1–2/bulan — jauh di bawah kredit $5 yang disediakan.</InfoBox>
+              </div>
+            </SubSection>
+
+            <SubSection title="Supabase — Database">
+              <div className="bg-bg-surface border border-border-default rounded-[12px] p-4 mb-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-[18px]">⚡</span>
+                  <span className="text-[14px] font-medium text-text-primary">Supabase</span>
+                  <Badge color="green">Gratis (Free)</Badge>
+                </div>
+                <p className="text-[13px] text-text-secondary mb-3">
+                  Database PostgreSQL cloud. Digunakan sebagai penyimpanan utama seluruh data — guru, siswa, kelas, absensi, nilai, dll.
+                </p>
+                <Table
+                  headers={['Fitur', 'Free', 'Pro ($25/bln)']}
+                  rows={[
+                    ['Database storage', '500 MB', '8 GB'],
+                    ['Jumlah project aktif', '2 project', 'Unlimited'],
+                    ['Bandwidth', '5 GB/bln', '250 GB/bln'],
+                    ['Inaktivitas', 'Paused setelah 7 hari tidak ada request', 'Tidak pernah paused'],
+                    ['Backup', 'Manual', 'Otomatis harian'],
+                  ]}
+                />
+                <InfoBox type="warning">
+                  <strong>Perhatian:</strong> Supabase Free akan <strong>mem-pause project</strong> jika tidak ada request selama 7 hari berturut-turut. Untuk production, pastikan ada request rutin atau upgrade ke Pro ($25/bln).
+                </InfoBox>
+                <InfoBox type="tip">
+                  500 MB cukup untuk ratusan hingga ribuan siswa. Estimasi: 1 siswa ≈ 2–5 KB data. Artinya 500 MB bisa menampung ~100.000+ siswa sebelum perlu upgrade.
+                </InfoBox>
+                <p className="text-[13px] text-text-secondary mt-3 mb-2 font-medium">Cara Eduva menggunakan Supabase:</p>
+                <ul className="list-disc list-inside text-[13px] text-text-secondary space-y-1">
+                  <li>Backend terhubung menggunakan <strong>Service Role Key</strong> (akses penuh, tanpa RLS)</li>
+                  <li>RLS (Row Level Security) dinonaktifkan — keamanan ditangani oleh JWT di backend</li>
+                  <li>Tidak menggunakan Supabase Auth — autentikasi custom dengan bcrypt + JWT</li>
+                  <li>Tidak menggunakan Realtime — semua data di-fetch secara manual</li>
+                </ul>
+              </div>
+            </SubSection>
+
+            <SubSection title="Ringkasan Biaya">
+              <Table
+                headers={['Layanan', 'Paket Saat Ini', 'Biaya/Bulan', 'Upgrade Diperlukan Saat']}
+                rows={[
+                  ['Vercel', 'Hobby (Free)', 'Rp 0', 'Traffic > 100GB/bln atau butuh kolaborasi tim'],
+                  ['Railway', 'Hobby', '$5 (~Rp 82.000)', 'CPU/RAM tidak cukup untuk traffic tinggi'],
+                  ['Supabase', 'Free', 'Rp 0', 'DB > 500MB atau butuh tidak pernah paused'],
+                ]}
+              />
+              <p className="text-[13px] text-text-secondary"><strong>Total biaya saat ini: ~$5/bulan (~Rp 82.000)</strong> untuk semua layanan production.</p>
+            </SubSection>
+
           </Section>
 
           {/* ── AKUN & AKSES ── */}
@@ -526,7 +627,7 @@ cd frontend && npm run dev`}</Code>
             <SubSection title="Deployment">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="bg-bg-surface border border-border-default rounded-[10px] p-4">
-                  <div className="text-[13px] font-medium text-text-primary mb-2">🔵 Vercel (Frontend)</div>
+                  <div className="text-[13px] font-medium text-text-primary mb-2">▲ Vercel (Frontend)</div>
                   <ul className="text-[12px] text-text-muted space-y-1">
                     <li>• Root directory: <code>frontend/</code></li>
                     <li>• Framework: Next.js (auto-detect)</li>
@@ -534,7 +635,7 @@ cd frontend && npm run dev`}</Code>
                   </ul>
                 </div>
                 <div className="bg-bg-surface border border-border-default rounded-[10px] p-4">
-                  <div className="text-[13px] font-medium text-text-primary mb-2">🟣 Railway (Backend)</div>
+                  <div className="text-[13px] font-medium text-text-primary mb-2">🚂 Railway (Backend)</div>
                   <ul className="text-[12px] text-text-muted space-y-1">
                     <li>• Root directory: <code>backend/</code></li>
                     <li>• Build: <code>npm install && npm run build</code></li>
@@ -543,6 +644,157 @@ cd frontend && npm run dev`}</Code>
                   </ul>
                 </div>
               </div>
+            </SubSection>
+
+            <SubSection title="Paket & Dependensi">
+              <p className="text-[13px] text-text-secondary font-medium mb-2">Frontend (Next.js)</p>
+              <Table
+                headers={['Paket', 'Versi', 'Fungsi']}
+                rows={[
+                  ['next', '16.2.7', 'Framework React dengan App Router dan Turbopack'],
+                  ['react', '19.2.4', 'UI library utama'],
+                  ['tailwindcss', '^4', 'Utility-first CSS dengan CSS custom properties'],
+                  ['@ducanh2912/next-pwa', '^10.2.9', 'Progressive Web App — install ke homescreen, offline support'],
+                  ['recharts', '^3.8.1', 'Grafik interaktif (line chart, bar chart di dashboard)'],
+                  ['react-calendar-heatmap', '^1.10.0', 'Visualisasi kalender kehadiran (heatmap)'],
+                  ['react-qr-code', '^2.1.1', 'Generate QR Code untuk PIN absensi (sisi guru)'],
+                  ['html5-qrcode', '^2.3.8', 'Scan QR Code via kamera HP (sisi siswa)'],
+                  ['jspdf + jspdf-autotable', '^4 / ^5', 'Export laporan ke PDF'],
+                  ['xlsx', '^0.18.5', 'Export data ke Excel (.xlsx)'],
+                  ['@supabase/supabase-js', '^2.108.0', 'Tidak dipakai langsung di frontend — hanya di backend'],
+                ]}
+              />
+              <p className="text-[13px] text-text-secondary font-medium mb-2 mt-4">Backend (Express.js)</p>
+              <Table
+                headers={['Paket', 'Versi', 'Fungsi']}
+                rows={[
+                  ['express', '^5.2.1', 'Web framework untuk REST API'],
+                  ['typescript', '^6.0.3', 'Type safety dan compile-time checking'],
+                  ['@supabase/supabase-js', '^2.108.0', 'Koneksi ke database PostgreSQL Supabase'],
+                  ['bcryptjs', '^3.0.3', 'Hash password guru dan siswa'],
+                  ['jsonwebtoken', '^9.0.3', 'Generate dan verifikasi JWT token autentikasi'],
+                  ['cors', '^2.8.6', 'Izinkan request dari domain Vercel (CORS policy)'],
+                  ['dotenv', '^17.4.2', 'Load environment variables dari file .env'],
+                  ['multer', '^2.1.1', 'Middleware multipart/form-data (diinstall, belum dipakai aktif)'],
+                ]}
+              />
+            </SubSection>
+
+          </Section>
+
+          {/* ── PHASE 5 ── */}
+          <Section id="phase5" title="Roadmap Phase 5 — Scale">
+            <InfoBox type="info">Phase 5 dieksekusi hanya jika ada <strong>demand nyata</strong> dari pengguna aktif. Prioritas utama tetap simplicity — jangan over-engineer sebelum ada kebutuhan nyata.</InfoBox>
+
+            <SubSection title="Kapan Perlu Upgrade?">
+              <Table
+                headers={['Kondisi', 'Tindakan']}
+                rows={[
+                  ['Supabase project sering paused (inaktif)', 'Upgrade Supabase ke Pro ($25/bln)'],
+                  ['DB mendekati 500MB', 'Upgrade Supabase ke Pro → 8GB'],
+                  ['Banyak sekolah mau pakai Eduva', 'Implementasi arsitektur multi-sekolah'],
+                  ['Backend butuh lebih banyak RAM/CPU', 'Upgrade Railway ke Pro ($20/bln)'],
+                  ['Traffic frontend > 100GB/bln', 'Upgrade Vercel ke Pro ($20/bln)'],
+                ]}
+              />
+            </SubSection>
+
+            <SubSection title="Fitur yang Direncanakan">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                {[
+                  {
+                    icon: '🏫',
+                    title: 'Multi-Sekolah',
+                    items: [
+                      'Satu instance Eduva untuk banyak sekolah',
+                      'Isolasi data antar sekolah (Row-Level Security)',
+                      'Admin per-sekolah kelola semua guru',
+                    ],
+                  },
+                  {
+                    icon: '🤖',
+                    title: 'AI Features (Claude API)',
+                    items: [
+                      'Auto-generate soal dari materi',
+                      'Rangkuman materi otomatis',
+                      'Analisis pola belajar siswa',
+                    ],
+                  },
+                  {
+                    icon: '🔗',
+                    title: 'Integrasi',
+                    items: [
+                      'SSO Google Workspace for Education',
+                      'Sinkronisasi data dengan Dapodik',
+                      'Notifikasi WhatsApp/email ke orang tua',
+                    ],
+                  },
+                  {
+                    icon: '⚙️',
+                    title: 'Technical Hardening',
+                    items: [
+                      'Rate limiting & security hardening',
+                      'Backup otomatis harian',
+                      'Monitoring error (Sentry)',
+                      'Analytics pengguna (PostHog)',
+                    ],
+                  },
+                ].map((card) => (
+                  <div key={card.title} className="bg-bg-surface border border-border-default rounded-[12px] p-4">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-[20px]">{card.icon}</span>
+                      <span className="text-[13px] font-medium text-text-primary">{card.title}</span>
+                    </div>
+                    <ul className="space-y-1.5">
+                      {card.items.map((item) => (
+                        <li key={item} className="flex items-start gap-2 text-[12px] text-text-muted">
+                          <span className="text-border-muted mt-0.5">○</span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </SubSection>
+
+            <SubSection title="Tech Stack Tambahan (Phase 5)">
+              <Table
+                headers={['Kebutuhan', 'Teknologi', 'Estimasi Biaya']}
+                rows={[
+                  ['Generate soal AI', 'Anthropic Claude API', 'Pay per token (~$3/1M token input)'],
+                  ['Multi-tenant DB', 'PostgreSQL Row-Level Security', 'Sudah ada di Supabase'],
+                  ['CDN / file storage', 'Cloudflare R2 atau AWS S3', '$0.015/GB/bln'],
+                  ['Error monitoring', 'Sentry', 'Free tier: 5.000 error/bln'],
+                  ['Product analytics', 'PostHog', 'Free tier: 1 juta event/bln'],
+                ]}
+              />
+            </SubSection>
+
+            <SubSection title="Model Arsitektur Multi-Sekolah">
+              <Code>{`-- Tabel tambahan
+schools (id, name, address, city, subscription_tier)
+teacher_schools (id, teacher_id, school_id, role)
+
+-- Semua tabel existing ditambah kolom school_id
+-- Row-Level Security memastikan isolasi data antar sekolah
+
+-- Contoh RLS policy
+CREATE POLICY "teachers see own school data"
+ON classes FOR ALL
+USING (school_id = current_setting('app.school_id')::uuid);`}</Code>
+            </SubSection>
+
+            <SubSection title="Model Pricing (Usulan)">
+              <Table
+                headers={['Tier', 'Harga', 'Kapasitas']}
+                rows={[
+                  ['Free', 'Rp 0', '1 guru, 1 kelas, 50 siswa'],
+                  ['Basic', 'Rp 99.000/bln', '5 guru, unlimited kelas'],
+                  ['Pro', 'Rp 299.000/bln', 'Unlimited guru + AI features'],
+                  ['Enterprise', 'Negosiasi', 'Multi-sekolah + integrasi Dapodik'],
+                ]}
+              />
             </SubSection>
 
           </Section>
