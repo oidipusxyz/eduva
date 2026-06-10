@@ -75,7 +75,7 @@ export default function Sidebar() {
   }, [])
 
   return (
-    <aside className="fixed top-0 left-0 h-screen w-[72px] bg-bg-surface border-r border-border-default flex flex-col items-center py-4 gap-1 z-50">
+    <aside className="hidden md:flex fixed top-0 left-0 h-screen w-[72px] bg-bg-surface border-r border-border-default flex-col items-center py-4 gap-1 z-50">
       <div className="w-10 h-10 rounded-[12px] bg-primary flex items-center justify-center mb-4">
         <span className="text-white text-[15px] font-medium">E</span>
       </div>

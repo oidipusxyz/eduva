@@ -39,7 +39,7 @@ export default function StudentDashboardPage() {
 
   return (
     <div className="min-h-screen bg-bg-page">
-      <div className="bg-bg-surface border-b border-border-default px-6 py-4 flex items-center justify-between">
+      <div className="bg-bg-surface border-b border-border-default px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-[8px] bg-primary flex items-center justify-center">
             <span className="text-white text-[13px] font-medium">E</span>
@@ -54,7 +54,7 @@ export default function StudentDashboardPage() {
         </button>
       </div>
 
-      <div className="p-6 max-w-[480px] mx-auto">
+      <div className="p-4 max-w-[480px] mx-auto">
         {/* Greeting */}
         <div className="mb-5">
           <h1 className="text-[20px] font-medium text-text-primary">Halo! 👋</h1>
