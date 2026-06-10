@@ -125,6 +125,27 @@ router.patch('/teachers/:id/role', requireAdmin, async (req: AuthRequest, res: R
   res.json({ role })
 })
 
+// Delete teacher
+router.delete('/teachers/:id', requireAdmin, async (req: AuthRequest, res: Response) => {
+  const { data: teacher } = await supabase
+    .from('teachers').select('id, role').eq('id', req.params.id).single()
+
+  if (!teacher) { res.status(404).json({ message: 'Guru tidak ditemukan' }); return }
+  if (teacher.role === 'admin') { res.status(400).json({ message: 'Tidak bisa menghapus akun admin' }); return }
+  if (teacher.id === req.teacherId) { res.status(400).json({ message: 'Tidak bisa menghapus akun sendiri' }); return }
+
+  const { data: classes } = await supabase
+    .from('classes').select('id').eq('teacher_id', req.params.id)
+
+  if (classes && classes.length > 0) {
+    res.status(400).json({ message: `Guru masih memiliki ${classes.length} kelas. Hapus semua kelasnya terlebih dahulu.` }); return
+  }
+
+  const { error } = await supabase.from('teachers').delete().eq('id', req.params.id)
+  if (error) { res.status(500).json({ message: error.message }); return }
+  res.status(204).send()
+})
+
 // School-wide attendance report (all classes)
 router.get('/reports', requireAdmin, async (_req: AuthRequest, res: Response) => {
   const { data: classes } = await supabase

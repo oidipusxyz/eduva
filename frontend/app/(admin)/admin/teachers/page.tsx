@@ -31,6 +31,7 @@ export default function AdminTeachersPage() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
   const [togglingId, setTogglingId] = useState<string | null>(null)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
 
   function fetchTeachers() {
     api.get<Teacher[]>('/admin/teachers')
@@ -54,6 +55,19 @@ export default function AdminTeachersPage() {
       setError(err instanceof Error ? err.message : 'Gagal membuat akun')
     } finally {
       setSubmitting(false)
+    }
+  }
+
+  async function handleDelete(id: string, name: string) {
+    if (!confirm(`Hapus akun guru "${name}"? Tindakan ini tidak bisa dibatalkan.`)) return
+    setDeletingId(id)
+    try {
+      await api.delete(`/admin/teachers/${id}`)
+      setTeachers((prev) => prev.filter((t) => t.id !== id))
+    } catch (err: unknown) {
+      alert('Gagal menghapus: ' + (err instanceof Error ? err.message : 'Error'))
+    } finally {
+      setDeletingId(null)
     }
   }
 
@@ -147,13 +161,26 @@ export default function AdminTeachersPage() {
                       </td>
                       <td className="py-3 text-right">
                         {t.role !== 'admin' && (
-                          <button
-                            onClick={() => handleToggle(t.id)}
-                            disabled={togglingId === t.id}
-                            className={`text-[11px] font-medium px-3 py-1 rounded-[6px] border transition-colors ${t.is_active ? 'border-danger-border text-danger-text hover:bg-danger-bg' : 'border-positive-border text-positive-text hover:bg-positive-bg'} disabled:opacity-50`}
-                          >
-                            {togglingId === t.id ? '...' : t.is_active ? 'Nonaktifkan' : 'Aktifkan'}
-                          </button>
+                          <div className="flex items-center justify-end gap-2">
+                            <button
+                              onClick={() => handleToggle(t.id)}
+                              disabled={togglingId === t.id || deletingId === t.id}
+                              className={`text-[11px] font-medium px-3 py-1 rounded-[6px] border transition-colors ${t.is_active ? 'border-danger-border text-danger-text hover:bg-danger-bg' : 'border-positive-border text-positive-text hover:bg-positive-bg'} disabled:opacity-50`}
+                            >
+                              {togglingId === t.id ? '...' : t.is_active ? 'Nonaktifkan' : 'Aktifkan'}
+                            </button>
+                            <button
+                              onClick={() => handleDelete(t.id, t.name)}
+                              disabled={deletingId === t.id}
+                              className="p-1.5 rounded-[6px] text-danger-text hover:bg-danger-bg border border-transparent hover:border-danger-border transition-colors disabled:opacity-50"
+                              title="Hapus guru"
+                            >
+                              {deletingId === t.id
+                                ? <span className="text-[11px]">...</span>
+                                : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /><path d="M10 11v6" /><path d="M14 11v6" /><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" /></svg>
+                              }
+                            </button>
+                          </div>
                         )}
                       </td>
                     </tr>
